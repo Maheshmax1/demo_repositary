@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eagle Flying Animation with Falling Apples</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: sans-serif;
+    background: linear-gradient(to top, #87ceeb, #f0f8ff); /* sky */
+  }
+
+  /* Ground */
+  .ground {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to top, #228B22, #32CD32);
+    z-index: 1;
+  }
+
+  /* Tree */
+  .tree {
+    position: absolute;
+    bottom: 150px;
+    width: 50px;
+    height: 120px;
+    background: #8B4513;
+    border-radius: 10px;
+  }
+
+  .tree::before {
+    content: '';
+    position: absolute;
+    bottom: 100px;
+    left: -35px;
+    width: 120px;
+    height: 80px;
+    background: #006400;
+    border-radius: 50%;
+  }
+
+  .tree:nth-child(1) { left: 100px; }
+  .tree:nth-child(2) { left: 400px; }
+  .tree:nth-child(3) { left: 700px; }
+
+  /* Eagle */
+  .eagle {
+    position: absolute;
+    width: 80px;
+    height: 40px;
+    background: #8B4513;
+    border-radius: 50% 50% 20% 20%;
+    top: 50px;
+    left: -100px;
+    z-index: 10;
+  }
+
+  /* Wings */
+  .eagle::before, .eagle::after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 10px;
+    background: #654321;
+    border-radius: 50%;
+    top: 10px;
+    transform-origin: left center;
+    animation: flap 0.5s ease-in-out infinite alternate;
+  }
+
+  .eagle::after {
+    left: 30px;
+    transform-origin: right center;
+  }
+
+  .eagle::before {
+    left: -20px;
+  }
+
+  @keyframes flap {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(30deg); }
+  }
+
+  /* Apple */
+  .apple {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 50%;
+    z-index: 5;
+  }
+
+</style>
+</head>
+<body>
+
+  <!-- Trees -->
+  <div class="tree"></div>
+  <div class="tree"></div>
+  <div class="tree"></div>
+
+  <!-- Eagle -->
+  <div class="eagle"></div>
+
+  <!-- Ground -->
+  <div class="ground"></div>
+
+<script>
+  const eagle = document.querySelector('.eagle');
+  const trees = document.querySelectorAll('.tree');
+
+  let positions = [
+    {left: 100, top: 100},
+    {left: 400, top: 150},
+    {left: 700, top: 120}
+  ];
+
+  let index = 0;
+
+  function moveEagle() {
+    let pos = positions[index];
+    eagle.style.transition = 'all 3s ease-in-out';
+    eagle.style.left = pos.left + 'px';
+    eagle.style.top = pos.top + 'px';
+    index = (index + 1) % positions.length;
+
+    // Play "gurrrr" sound
+    let audio = new Audio('https://www.soundjay.com/animal/eagle-1.mp3');
+    audio.play();
+  }
+
+  setInterval(moveEagle, 3000);
+
+  // Apple falling
+  function dropApple(tree) {
+    const apple = document.createElement('div');
+    apple.className = 'apple';
+    apple.style.left = (tree.offsetLeft + 20) + 'px';
+    apple.style.top = (tree.offsetTop - 20) + 'px';
+    document.body.appendChild(apple);
+
+    let fallDuration = Math.random() * 2 + 2; // 2-4 sec
+    apple.style.transition = `top ${fallDuration}s linear`;
+
+    setTimeout(() => {
+      apple.style.top = 'calc(100% - 20px)';
+    }, 100);
+
+    // Remove apple after falling
+    setTimeout(() => {
+      apple.remove();
+    }, fallDuration * 1000 + 200);
+  }
+
+  // Drop apples every second
+  setInterval(() => {
+    trees.forEach(tree => {
+      dropApple(tree);
+    });
+  }, 1000);
+
+  // Start eagle movement
+  moveEagle();
+
+</script>
+
+</body>
+</html>

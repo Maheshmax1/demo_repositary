@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multi-Animation Page</title>
+<style>
+  /* General Styles */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    transition: all 0.5s ease;
+    font-family: 'Arial', sans-serif;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    overflow-x: hidden;
+    padding: 50px 20px;
+  }
+
+  /* Animated Header */
+  h1 {
+    font-size: 3em;
+    color: #333;
+    margin-bottom: 50px;
+    opacity: 0;
+    animation: fadeIn 2s forwards;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Animated Button */
+  .animated-button {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border: none;
+    border-radius: 50px;
+    background: #ff6b6b;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 50px;
+  }
+
+  .animated-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: 0.5s;
+    transform: skewX(-20deg);
+  }
+
+  .animated-button:hover::before {
+    left: 200%;
+  }
+
+  /* Boxes Animation */
+  .box-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .box {
+    width: 150px;
+    height: 150px;
+    background: #4dabf7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.5em;
+    border-radius: 15px;
+    opacity: 0;
+    transform: translateY(50px);
+    animation: slideUp 1s forwards;
+  }
+
+  .box:nth-child(1) {
+    animation-delay: 0.3s;
+  }
+
+  .box:nth-child(2) {
+    animation-delay: 0.6s;
+  }
+
+  .box:nth-child(3) {
+    animation-delay: 0.9s;
+  }
+
+  .box:nth-child(4) {
+    animation-delay: 1.2s;
+  }
+
+  @keyframes slideUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Hover Scale Animation */
+  .box:hover {
+    transform: scale(1.1);
+    background: #ff6b6b;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+
+  /* Footer Fade-In Animation */
+  footer {
+    margin-top: 50px;
+    font-size: 1.2em;
+    opacity: 0;
+    animation: fadeInFooter 2s 2s forwards;
+  }
+
+  @keyframes fadeInFooter {
+    to {
+      opacity: 1;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <h1>Welcome to Multi-Animation Page</h1>
+
+  <button class="animated-button">Hover Me!</button>
+
+  <div class="box-container">
+    <div class="box">1</div>
+    <div class="box">2</div>
+    <div class="box">3</div>
+    <div class="box">4</div>
+  </div>
+
+  <footer>© 2025 Mahesh's Animations</footer>
+
+</body>
+</html>

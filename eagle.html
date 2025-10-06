@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flying Eagle Animation</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(to top, #87ceeb, #f0f8ff); /* Sky */
+    position: relative;
+    font-family: sans-serif;
+  }
+
+  /* Ground with trees */
+  .ground {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to top, #228B22, #32CD32);
+  }
+
+  .tree {
+    position: absolute;
+    bottom: 150px;
+    width: 50px;
+    height: 100px;
+    background: #2E8B57;
+    border-radius: 10px;
+  }
+
+  .tree::before {
+    content: '';
+    position: absolute;
+    bottom: 80px;
+    left: -25px;
+    width: 100px;
+    height: 60px;
+    background: #006400;
+    border-radius: 50%;
+  }
+
+  .tree:nth-child(1) { left: 100px; }
+  .tree:nth-child(2) { left: 300px; }
+  .tree:nth-child(3) { left: 500px; }
+  .tree:nth-child(4) { left: 700px; }
+  .tree:nth-child(5) { left: 900px; }
+
+  /* Eagle */
+  .eagle {
+    position: absolute;
+    width: 80px;
+    height: 40px;
+    background: #8B4513; /* brown body */
+    border-radius: 50% 50% 20% 20%;
+    top: 30%;
+    animation: fly 10s linear infinite;
+  }
+
+  /* Wings */
+  .eagle::before, .eagle::after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 10px;
+    background: #654321;
+    border-radius: 50%;
+    top: 10px;
+    transform-origin: left center;
+    animation: flap 0.5s ease-in-out infinite alternate;
+  }
+
+  .eagle::after {
+    left: 30px;
+    transform-origin: right center;
+  }
+
+  .eagle::before {
+    left: -20px;
+  }
+
+  @keyframes fly {
+    0% { left: -100px; top: 30%; transform: rotate(0deg); }
+    25% { top: 25%; transform: rotate(10deg); }
+    50% { left: 100%; top: 35%; transform: rotate(0deg); }
+    75% { top: 30%; transform: rotate(-10deg); }
+    100% { left: -100px; top: 30%; transform: rotate(0deg); }
+  }
+
+  @keyframes flap {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(30deg); }
+  }
+
+</style>
+</head>
+<body>
+
+  <!-- Trees -->
+  <div class="tree"></div>
+  <div class="tree"></div>
+  <div class="tree"></div>
+  <div class="tree"></div>
+  <div class="tree"></div>
+
+  <!-- Eagle -->
+  <div class="eagle"></div>
+
+  <!-- Ground -->
+  <div class="ground"></div>
+
+  <!-- Sound -->
+  <audio id="gurrr" src="https://www.soundjay.com/animal/eagle-1.mp3"></audio>
+
+<script>
+  const eagle = document.querySelector('.eagle');
+  const sound = document.getElementById('gurrr');
+
+  eagle.addEventListener('animationiteration', () => {
+    sound.currentTime = 0;
+    sound.play();
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+<input type="text" id="userInput" placeholder="Type here..." />
+<button onclick="sendMessage()">Send</button>
+
+<div id="chat"></div>
+
+<script>
+async function sendMessage() {
+  const input = document.getElementById('userInput').value;
+  const response = await fetch('/chat', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({message: input})
+  });
+  const data = await response.json();
+  document.getElementById('chat').innerHTML += `<p><b>You:</b> ${input}</p>`;
+  document.getElementById('chat').innerHTML += `<p><b>AI:</b> ${data.reply}</p>`;
+}
+</script>
